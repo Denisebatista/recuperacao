@@ -10,9 +10,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.PathSegment;
 
-import projeto.dawii.lucas.entities.Cliente;
+
 import projeto.dawii.lucas.entities.ServicoPrest;
-import projeto.dawii.lucas.services.ClienteService;
+
 import projeto.dawii.lucas.services.SerPrestService;
 
 public class SerPrestServiceRS {
