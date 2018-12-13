@@ -1,0 +1,56 @@
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.PathSegment;
+
+import projeto.dawii.lucas.entities.Cliente;
+import projeto.dawii.lucas.services.ClienteService;
+
+public class ClassServiceRs {
+@Inject
+private ClienteService clienteService;
+@GET
+@Path ( "/nome/{id}" )
+@Produces ( "text/html" )
+public String getNome (@PathParam("id") Long id) {
+return "<h1>" +clienteService.getByID(id).getNome()+"<h1>";
+}
+@GET
+@Path ( "/list" )
+@Produces ( "text/html" )
+public String list() {
+String retorno = "<ul>";
+List<Cliente> clientes = clienteService.getAll();
+for (Cliente c: clientes) {
+retorno+= "<li>" +c.getNome()+ "<li>" ; 
+}
+return retorno + "</ul>";
+}
+@GET
+@Path("/add/{cliente}")
+public String add(@PathParam("cliente") PathSegment atributos) {
+MultivaluedMap<String, String> matrixParameters = atributos.getMatrixParameters();
+String nome = matrixParameters.getFirst("nome");
+String numeroCasa = matrixParameters.getFirst("numeroCasa");
+String idade = matrixParameters.getFirst("idade");
+String id_cliente = matrixParameters.getFirst("id_cliente");
+Cliente c = new Cliente();
+c.setNome(nome);
+c.setNumeroCasa(numeroCasa);
+c.setId(Long.parseLong(id_cliente));
+c.setIdade(idade);
+clienteService.save(c);
+return "Salvo com sucesso";
+}
+public ClienteService getClienteService() {
+return clienteService;
+}
+public void setUserService(ClienteService clienteService) {
+this.clienteService = clienteService;
+}
+}
