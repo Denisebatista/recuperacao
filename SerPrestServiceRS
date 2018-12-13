@@ -1,0 +1,70 @@
+package RS;
+
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.PathSegment;
+
+import projeto.dawii.lucas.entities.Cliente;
+import projeto.dawii.lucas.entities.ServicoPrest;
+import projeto.dawii.lucas.services.ClienteService;
+import projeto.dawii.lucas.services.SerPrestService;
+
+public class SerPrestServiceRS {
+@Inject
+private SerPrestService serprestService;
+@GET
+@Path ( "/nome/{id}" )
+@Produces ( "text/html" )
+public String getNome (@PathParam("id") Long id) {
+return "<h1>" + serprestService.getByID(id).getNome()+"<h1>";
+}
+@GET
+@Path ( "/list" )
+@Produces ( "text/html" )
+public String list() {
+String retorno = "<ul>";
+List<ServicoPrest> serprest = serprestService.getAll();
+for (ServicoPrest s: serprest) {
+retorno+= "<li>" +s.getNome()+ "<li>" ; 
+}
+return retorno + "</ul>";
+}
+@GET
+@Path("/add/{servico}")
+public String add(@PathParam("servico") PathSegment atributos) {
+MultivaluedMap<String, String> matrixParameters = atributos.getMatrixParameters();
+String nome = matrixParameters.getFirst("nome");
+String psicologo = matrixParameters.getFirst("psicologo");
+String baba = matrixParameters.getFirst("baba");
+String id_serv = matrixParameters.getFirst("id_serv");
+String eletricista = matrixParameters.getFirst("eletricista");
+String vendedor = matrixParameters.getFirst("vendedor");
+String pedreiro = matrixParameters.getFirst("pedreiro");
+String professor = matrixParameters.getFirst("professor");
+
+ServicoPrest s = new ServicoPrest();
+s.setNome(nome);
+s.setPsicologo(psicologo);
+s.setId(Long.parseLong(id_serv));
+s.setBaba(baba);
+s.setEletricista(eletricista);
+s.setVendedor(vendedor);
+s.setPedreiro(pedreiro);
+s.setProfessor(professor);
+serprestService.save(s);
+return "Salvo com sucesso";
+}
+public SerPrestService getSerPrestService() {
+return serprestService;
+}
+public void setSerPrestService(SerPrestService serprestService) {
+this.serprestService = serprestService;
+}
+
+}
