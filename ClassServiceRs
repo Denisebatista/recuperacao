@@ -50,7 +50,7 @@ return "Salvo com sucesso";
 public ClienteService getClienteService() {
 return clienteService;
 }
-public void setUserService(ClienteService clienteService) {
+public void setClienteService(ClienteService clienteService) {
 this.clienteService = clienteService;
 }
 }
